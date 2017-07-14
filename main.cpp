@@ -14,7 +14,7 @@ void getWindowSize();
 //Handling uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_SIZE && wParam == SIZE_RESTORED || wParam == SIZE_MINIMIZED || wParam == SIZE_MAXIMIZED) {
+	if (msg == WM_SIZE) {
 		getWindowSize();
 		//The magic numbers 16 and 39 are the adjustments for the window bars.
 		SetWindowPos(hWndEdit, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
@@ -36,7 +36,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR nCmdLine, int nCmdShow)
 {
-	LPTSTR windowClass = TEXT("WinApp");
+	LPTSTR windowClass = TEXT("ProjectHowlApp");
 	LPTSTR windowTitle = TEXT("ProjectHowl");
 	WNDCLASSEX wcex;
 
@@ -52,6 +52,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	wcex.lpszClassName = windowClass;
 	wcex.lpszMenuName = NULL;
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
+
+	//Registering the window. Will exit gracefully if failed.
 	if (!RegisterClassEx(&wcex))
 	{
 		MessageBox(NULL, TEXT("RegisterClassEx Failed!"), TEXT("Error"),
@@ -59,8 +61,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		return EXIT_FAILURE;
 	}
 
-	
-
+	//Creating main window and exiting gracefully if exceptions occur.
 	if (!(hWnd = CreateWindow(windowClass, windowTitle, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, NULL, NULL, hInstance, NULL)))
@@ -71,22 +72,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	getWindowSize();
 
+	//Creating inner editing window.
 	hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("Start Writing..."),
-		WS_CHILD | WS_VISIBLE | ES_WANTRETURN, 0, 0, (rect.right - rect.left) - 16,
-		(rect.bottom - rect.top) - 40, hWnd, NULL, NULL, NULL);
+		WS_CHILD | WS_VISIBLE | ES_WANTRETURN, 0, 0, 0, 0, hWnd, NULL, NULL, NULL);
 
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
+	//Structure to hold message.
 	MSG msg;
 
+	//Loop to handle events.
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 	return EXIT_SUCCESS;
-
 }
 
 void getWindowSize() {
