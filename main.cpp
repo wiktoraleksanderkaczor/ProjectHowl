@@ -50,7 +50,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		std::cout << "Error getting the windows size.\n";
 	}
 
-	HWND hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("This is a test of the PhotonWriter"),
+	HWND hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("Start Writing..."),
 		WS_CHILD | WS_VISIBLE | ES_WANTRETURN, 0, 0, (rect.right - rect.left) - 20,
 		(rect.bottom - rect.top) - 40, hWnd, NULL, NULL, NULL);
 
