@@ -3,24 +3,21 @@
 
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
+//Global variables
 RECT rect;
 HWND hWnd;
 HWND hWndEdit;
 
-LPTSTR windowClass = TEXT("WinApp");
-LPTSTR windowTitle = TEXT("ProjectHowl");
-WNDCLASSEX wcex;
-
+//Declaring used methods.
 void getWindowSize();
 
 //Handling uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_SIZE && wParam == SIZE_RESTORED || wParam == SIZE_MINIMIZED || wParam == SIZE_MAXIMIZED) {
-		//TODO: Find a way to call this method with hWndEdit as well. Perhaps this will work.
-		//changeWindowSize(hWnd, GetWindow(hWnd, GW_CHILD));
 		getWindowSize();
-		SetWindowPos(hWndEdit, NULL, 0, 0, ((rect.right - rect.left)), ((rect.bottom - rect.top)), SWP_NOMOVE);
+		//The magic numbers 16 and 39 are the adjustments for the window bars.
+		SetWindowPos(hWndEdit, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
 	}
 
 	switch (msg)
@@ -39,7 +36,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR nCmdLine, int nCmdShow)
 {
-
+	LPTSTR windowClass = TEXT("WinApp");
+	LPTSTR windowTitle = TEXT("ProjectHowl");
+	WNDCLASSEX wcex;
 
 	wcex.cbClsExtra = 0;
 	wcex.cbSize = sizeof(WNDCLASSEX);
