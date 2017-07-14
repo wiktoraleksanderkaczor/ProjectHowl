@@ -3,8 +3,26 @@
 
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
+RECT rect;
+HWND hWnd;
+HWND hWndEdit;
+
+LPTSTR windowClass = TEXT("WinApp");
+LPTSTR windowTitle = TEXT("ProjectHowl");
+WNDCLASSEX wcex;
+
+void getWindowSize();
+
+//Handling uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (msg == WM_SIZE && wParam == SIZE_RESTORED || wParam == SIZE_MINIMIZED || wParam == SIZE_MAXIMIZED) {
+		//TODO: Find a way to call this method with hWndEdit as well. Perhaps this will work.
+		//changeWindowSize(hWnd, GetWindow(hWnd, GW_CHILD));
+		getWindowSize();
+		SetWindowPos(hWndEdit, NULL, 0, 0, ((rect.right - rect.left)), ((rect.bottom - rect.top)), SWP_NOMOVE);
+	}
+
 	switch (msg)
 	{
 	case WM_CLOSE:
@@ -17,12 +35,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+//The main entry point for the program.
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR nCmdLine, int nCmdShow)
 {
-	LPTSTR windowClass = TEXT("WinApp");
-	LPTSTR windowTitle = TEXT("PhotonWriter");
-	WNDCLASSEX wcex;
+
 
 	wcex.cbClsExtra = 0;
 	wcex.cbSize = sizeof(WNDCLASSEX);
@@ -43,7 +60,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		return EXIT_FAILURE;
 	}
 
-	HWND hWnd;
+	
 
 	if (!(hWnd = CreateWindow(windowClass, windowTitle, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -53,17 +70,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		return EXIT_FAILURE;
 	}
 
-	//Get window size. test
-	RECT rect;
-	if (GetWindowRect(hWnd, &rect))
-	{
-	}
-	else {
-		std::cout << "Error getting the windows size.\n";
-	}
+	getWindowSize();
 
-	HWND hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("Start Writing..."),
-		WS_CHILD | WS_VISIBLE | ES_WANTRETURN, 0, 0, (rect.right - rect.left) - 20,
+	hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("Start Writing..."),
+		WS_CHILD | WS_VISIBLE | ES_WANTRETURN, 0, 0, (rect.right - rect.left) - 16,
 		(rect.bottom - rect.top) - 40, hWnd, NULL, NULL, NULL);
 
 	ShowWindow(hWnd, nCmdShow);
@@ -77,5 +87,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		DispatchMessage(&msg);
 	}
 	return EXIT_SUCCESS;
+
 }
 
+void getWindowSize() {
+	if (GetWindowRect(hWnd, &rect) == false) {
+		std::cout << "Error getting the windows size.\n";
+	}
+}
