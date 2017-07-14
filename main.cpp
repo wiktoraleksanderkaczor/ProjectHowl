@@ -3,7 +3,19 @@
 
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_CLOSE:
+		DestroyWindow(hWnd);
+	case WM_DESTROY:
+		PostQuitMessage(EXIT_SUCCESS);
+	default:
+		return DefWindowProc(hWnd, msg, wParam, lParam);
+	}
+	return FALSE;
+}
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR nCmdLine, int nCmdShow)
@@ -67,14 +79,3 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	return EXIT_SUCCESS;
 }
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg)
-	{
-	case WM_DESTROY:
-		PostQuitMessage(EXIT_SUCCESS);
-	default:
-		return DefWindowProc(hWnd, msg, wParam, lParam);
-	}
-	return FALSE;
-}
