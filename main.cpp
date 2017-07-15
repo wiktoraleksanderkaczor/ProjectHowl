@@ -10,21 +10,56 @@ HWND hWndEdit;
 
 //Declaring used methods.
 void getWindowSize();
+void AddMenus(HWND hWnd);
+
+//Defining params for menubar messages.
+#define IDM_FILE_NEW 1
+#define IDM_FILE_OPEN 2
+#define IDM_FILE_QUIT 3
+#define IDM_FILE_EXPORT 4
+#define IDM_HELP_ABOUT 5
+
 
 //Handling uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
+	case WM_CREATE:
+		AddMenus(hWnd);
+		break;
+	case WM_COMMAND:
+		//Handling menu commands.
+		//TODO: Implement File IO.
+		switch (LOWORD(wParam)) {
+		case IDM_FILE_NEW:
+			break;
+		case IDM_FILE_OPEN:
+			break;
+		case IDM_FILE_EXPORT:
+			break;
+		case IDM_FILE_QUIT:
+			SendMessage(hWnd, WM_CLOSE, 0, 0);
+			break;
+		case IDM_HELP_ABOUT:
+			MessageBox(hWnd, TEXT("This program was made by Wiktor Kaczor."), TEXT("About"), MB_OK);
+			break;
+		}
+		//End of handling menu commands.
+		break;
 	case WM_CLOSE:
 		DestroyWindow(hWnd);
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(EXIT_SUCCESS);
+		break;
 	case WM_SIZE:
 		getWindowSize();
 		//The magic numbers 16 and 39 are the adjustments for the window bars.
 		SetWindowPos(hWndEdit, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
+		break;
 	default:
 		return DefWindowProc(hWnd, msg, wParam, lParam);
+		break;
 	}
 	return FALSE;
 }
@@ -69,8 +104,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	getWindowSize();
 
 	//Creating inner editing window.
+	//Add "ES_AUTOHSCROLL" to styles for scrolling horizontally.
 	hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("EDIT"), TEXT("Start Writing Motherfucker..."),
-		WS_CHILD | WS_VISIBLE | ES_WANTRETURN | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOHSCROLL,
+		WS_CHILD | WS_VISIBLE | ES_WANTRETURN | WS_VSCROLL | ES_LEFT | ES_MULTILINE,
 		0, 0, 0, 0, hWnd, NULL, NULL, NULL);
 
 	ShowWindow(hWnd, nCmdShow);
@@ -92,4 +128,35 @@ void getWindowSize() {
 	if (GetWindowRect(hWnd, &rect) == false) {
 		std::cout << "Error getting the windows size.\n";
 	}
+}
+
+void AddMenus(HWND hWnd) {
+	//Declaring all menus.
+	HMENU hMenubar;
+	HMENU hFileMenu;
+	HMENU hHelpMenu;
+
+	//Creating main menubar.
+	hMenubar = CreateMenu();
+
+	//Creating sub-menus.
+	hFileMenu = CreateMenu();
+	hHelpMenu = CreateMenu();
+
+	//Creating command buttons in file menu.
+	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_NEW, L"&New");
+	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_OPEN, L"&Open");
+	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_EXPORT, L"&Export...");
+	AppendMenuW(hFileMenu, MF_SEPARATOR, 0, NULL);
+	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_QUIT, L"&Quit");
+
+	//Creating command buttons in help menu.
+	AppendMenuW(hHelpMenu, MF_STRING, IDM_HELP_ABOUT, L"&About");
+
+	//Filling menubar.
+	AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hFileMenu, L"&File");
+	AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hHelpMenu, L"&Help");
+
+	//Setting hWnd to use the menubar.
+	SetMenu(hWnd, hMenubar);
 }
