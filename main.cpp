@@ -107,7 +107,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 
 		//Creating inner editing window.
 		//Add "ES_AUTOHSCROLL" to styles for scrolling horizontally.
-		hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("EDIT"), TEXT("Start Writing Motherfucker..."),
+		hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("EDIT"), TEXT("Start Writing..."),
 		WS_CHILD | WS_VISIBLE | ES_WANTRETURN | WS_VSCROLL | ES_LEFT | ES_MULTILINE,
 		0, 0, 0, 0, hWnd, NULL, NULL, NULL);
 	*/
@@ -176,7 +176,7 @@ HWND CreateRichEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTAN
 
 	//Creating edit control
 	//Alternatives to ES_CENTER are ES_LEFT and ES_RIGHT.
-	HWND hWndEdit = CreateWindowEx(0, TEXT("RICHEDIT"), TEXT("Start Writing Motherfucker..."),
+	HWND hWndEdit = CreateWindowEx(0, TEXT("RICHEDIT"), TEXT("Start Writing..."),
 		ES_MULTILINE | WS_VISIBLE | WS_CHILD | WS_BORDER | WS_TABSTOP | WS_VSCROLL | ES_CENTER,
 		x, y, width, height,
 		hWndOwner, NULL, hInstance, NULL);
