@@ -14,17 +14,15 @@ void getWindowSize();
 //Handling uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_SIZE) {
-		getWindowSize();
-		//The magic numbers 16 and 39 are the adjustments for the window bars.
-		SetWindowPos(hWndEdit, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
-	}
-
 	switch (msg) {
 	case WM_CLOSE:
 		DestroyWindow(hWnd);
 	case WM_DESTROY:
 		PostQuitMessage(EXIT_SUCCESS);
+	case WM_SIZE:
+		getWindowSize();
+		//The magic numbers 16 and 39 are the adjustments for the window bars.
+		SetWindowPos(hWndEdit, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
 	default:
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
