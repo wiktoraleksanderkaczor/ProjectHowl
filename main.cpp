@@ -1,6 +1,8 @@
 //Removing unnecessary headers to decrease compilation time.
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
+
+//Including neccessary headers.
 #include <windows.h>
 #include <iostream>
 #include <Commctrl.h>
@@ -117,15 +119,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 
 	getWindowSize();
 	
-	/* Exchanged for a rich text editor window.
-
-		//Creating inner editing window.
-		//Add "ES_AUTOHSCROLL" to styles for scrolling horizontally.
-		hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("EDIT"), TEXT("Start Writing..."),
-		WS_CHILD | WS_VISIBLE | ES_WANTRETURN | WS_VSCROLL | ES_LEFT | ES_MULTILINE,
-		0, 0, 0, 0, hWnd, NULL, NULL, NULL);
-	*/
-
 	//Creating rich text editor window.
 	hWndEdit = CreateRichEdit(hWnd, 0, 0, 0, 0, hInstance);
 
