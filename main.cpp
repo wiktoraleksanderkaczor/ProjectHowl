@@ -20,8 +20,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		SetWindowPos(hWndEdit, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
 	}
 
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_CLOSE:
 		DestroyWindow(hWnd);
 	case WM_DESTROY:
@@ -34,7 +33,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 //The main entry point for the program.
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-	LPSTR nCmdLine, int nCmdShow)
+	LPSTR nCmdLine, int nCmdShow) 
 {
 	LPTSTR windowClass = TEXT("ProjectHowlApp");
 	LPTSTR windowTitle = TEXT("ProjectHowl");
@@ -54,8 +53,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
 
 	//Registering the window. Will exit gracefully if failed.
-	if (!RegisterClassEx(&wcex))
-	{
+	if (!RegisterClassEx(&wcex)) {
 		MessageBox(NULL, TEXT("RegisterClassEx Failed!"), TEXT("Error"),
 			MB_ICONERROR);
 		return EXIT_FAILURE;
@@ -73,8 +71,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	getWindowSize();
 
 	//Creating inner editing window.
-	hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("Start Writing..."),
-		WS_CHILD | WS_VISIBLE | ES_WANTRETURN, 0, 0, 0, 0, hWnd, NULL, NULL, NULL);
+	hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("EDIT"), TEXT("Start Writing Motherfucker..."),
+		WS_CHILD | WS_VISIBLE | ES_WANTRETURN | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOHSCROLL,
+		0, 0, 0, 0, hWnd, NULL, NULL, NULL);
 
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
@@ -83,8 +82,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	MSG msg;
 
 	//Loop to handle events.
-	while (GetMessage(&msg, NULL, 0, 0))
-	{
+	while (GetMessage(&msg, NULL, 0, 0)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
@@ -92,6 +90,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 }
 
 void getWindowSize() {
+	//Get size of the window called hWnd and store in RECT rect.
 	if (GetWindowRect(hWnd, &rect) == false) {
 		std::cout << "Error getting the windows size.\n";
 	}
