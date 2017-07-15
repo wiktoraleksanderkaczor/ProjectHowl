@@ -1,3 +1,6 @@
+//Removing unnecessary headers to decrease compilation time.
+#define WIN32_LEAN_AND_MEAN
+#define VC_EXTRALEAN
 #include <windows.h>
 #include <iostream>
 #include <Commctrl.h>
@@ -68,10 +71,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //The main entry point for the program.
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine, int nCmdShow) 
 {
+	//Suppressing warnings.
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(nCmdLine);
+
+	//Loading dependencies.
+	LoadLibrary(TEXT("Msftedit.dll"));
+	LoadLibrary(TEXT("Riched32.dll"));
+	LoadLibrary(TEXT("Riched20.dll"));
+
+	//Setting title and class of main window.
 	LPTSTR windowClass = TEXT("ProjectHowlApp");
 	LPTSTR windowTitle = TEXT("ProjectHowl");
+	
+	//Creating and setting window attributes for register.
 	WNDCLASSEX wcex;
-
 	wcex.cbClsExtra = 0;
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.cbWndExtra = 0;
@@ -169,17 +183,11 @@ void AddMenus(HWND hWnd) {
 }
 
 HWND CreateRichEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance) {
-	//Loading dependencies.
-	LoadLibrary(TEXT("Msftedit.dll"));
-	LoadLibrary(TEXT("Riched32.dll"));
-	LoadLibrary(TEXT("Riched20.dll"));
-
 	//Creating edit control
 	//Alternatives to ES_CENTER are ES_LEFT and ES_RIGHT.
-	HWND hWndEdit = CreateWindowEx(0, TEXT("RICHEDIT"), TEXT("Start Writing..."),
+	HWND hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("RICHEDIT"), TEXT("Start Writing..."),
 		ES_MULTILINE | WS_VISIBLE | WS_CHILD | WS_BORDER | WS_TABSTOP | WS_VSCROLL | ES_CENTER,
-		x, y, width, height,
-		hWndOwner, NULL, hInstance, NULL);
+		x, y, width, height, hWndOwner, NULL, hInstance, NULL);
 
 	return hWndEdit;
 }
