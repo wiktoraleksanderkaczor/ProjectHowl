@@ -1,0 +1,1 @@
+1. Add the ability to use headings, italics, bold letters as well as several different fonts.
