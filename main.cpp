@@ -20,7 +20,10 @@ RECT rect;
 HWND hWnd;
 HWND hWndEdit;
 
-//Declaring used methods.
+//Including my header for configuring the editor. This will be included at the end.
+#include <\ActualProject\ProjectHowl\EditorConfigFunctions.h>
+
+//Declaring functions.
 void getWindowSize();
 void AddMenus(HWND hWnd);
 HWND CreateScintillaEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance);
@@ -32,7 +35,7 @@ HWND CreateScintillaEdit(HWND hWndOwner, int x, int y, int width, int height, HI
 #define IDM_FILE_EXPORT 4
 #define IDM_HELP_ABOUT 5
 
-//Handling uncaught exceptions.
+//Handling messages and uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -126,6 +129,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 	
 	//Creating rich text editor window.
 	hWndEdit = CreateScintillaEdit(hWnd, 0, 0, 0, 0, hInstance);
+	setGlobalStyle((LPARAM)"Times New Roman");
 
 	//Setting focus to window.
 	ShowWindow(hWnd, nCmdShow);
@@ -182,9 +186,8 @@ void AddMenus(HWND hWnd) {
 
 HWND CreateScintillaEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance) {
 	//Creating scintilla edit control
-	//Alternatives to ES_CENTER are ES_LEFT and ES_RIGHT.
 	HWND hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Scintilla"), NULL,
-		ES_MULTILINE | WS_VISIBLE | WS_CHILD | WS_BORDER | WS_TABSTOP | WS_VSCROLL,
+		WS_VISIBLE | WS_CHILD | WS_BORDER | WS_TABSTOP | WS_VSCROLL,
 		x, y, width, height, hWndOwner, NULL, hInstance, NULL);
 
 	return hWndEdit;
