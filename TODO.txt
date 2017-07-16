@@ -1,2 +1,1 @@
 1. Add the ability to use headings, italics, bold letters as well as several different fonts.
-2. Get rid of the character limit on hWndEdit.

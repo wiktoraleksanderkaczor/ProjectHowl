@@ -78,9 +78,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 	UNREFERENCED_PARAMETER(nCmdLine);
 
 	//Loading dependencies.
-	LoadLibrary(TEXT("Msftedit.dll"));
-	LoadLibrary(TEXT("Riched32.dll"));
-	LoadLibrary(TEXT("Riched20.dll"));
+	LoadLibrary(TEXT("SciLexer.dll"));
 
 	//Setting title and class of main window.
 	LPTSTR windowClass = TEXT("ProjectHowlApp");
@@ -109,7 +107,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 	}
 
 	//Creating main window and exiting gracefully if exceptions occur.
-	if (!(hWnd = CreateWindow(windowClass, windowTitle, WS_OVERLAPPEDWINDOW,
+	if (!(hWnd = CreateWindow(windowClass, windowTitle, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, NULL, NULL, hInstance, NULL)))
 	{
@@ -176,10 +174,10 @@ void AddMenus(HWND hWnd) {
 }
 
 HWND CreateRichEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance) {
-	//Creating edit control
+	//Creating scintilla edit control
 	//Alternatives to ES_CENTER are ES_LEFT and ES_RIGHT.
-	HWND hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("RICHEDIT"), TEXT("Start Writing..."),
-		ES_MULTILINE | WS_VISIBLE | WS_CHILD | WS_BORDER | WS_TABSTOP | WS_VSCROLL | ES_CENTER,
+	HWND hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Scintilla"), NULL,
+		ES_MULTILINE | WS_VISIBLE | WS_CHILD | WS_BORDER | WS_TABSTOP | WS_VSCROLL,
 		x, y, width, height, hWndOwner, NULL, hInstance, NULL);
 
 	return hWndEdit;
