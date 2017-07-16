@@ -6,6 +6,12 @@
 #include <windows.h>
 #include <iostream>
 #include <Commctrl.h>
+#include </ActualProject/ProjectHowl/include/Scintilla.h>
+#include </ActualProject/ProjectHowl/include/ILexer.h>
+#include </ActualProject/ProjectHowl/include/Sci_Position.h>
+#include </ActualProject/ProjectHowl/include/SciLexer.h>
+#include </ActualProject/ProjectHowl/include/ScintillaWidget.h>
+#include </ActualProject/ProjectHowl/include/Platform.h>
 
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
@@ -79,6 +85,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 
 	//Loading dependencies.
 	LoadLibrary(TEXT("SciLexer.dll"));
+	LoadLibrary(TEXT("Scintilla.dll"));
 
 	//Setting title and class of main window.
 	LPTSTR windowClass = TEXT("ProjectHowlApp");
