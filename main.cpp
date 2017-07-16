@@ -17,7 +17,7 @@ HWND hWndEdit;
 //Declaring used methods.
 void getWindowSize();
 void AddMenus(HWND hWnd);
-HWND CreateRichEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance);
+HWND CreateScintillaEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance);
 
 //Defining params for menubar messages.
 #define IDM_FILE_NEW 1
@@ -118,7 +118,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 	getWindowSize();
 	
 	//Creating rich text editor window.
-	hWndEdit = CreateRichEdit(hWnd, 0, 0, 0, 0, hInstance);
+	hWndEdit = CreateScintillaEdit(hWnd, 0, 0, 0, 0, hInstance);
 
 	//Setting focus to window.
 	ShowWindow(hWnd, nCmdShow);
@@ -173,7 +173,7 @@ void AddMenus(HWND hWnd) {
 	SetMenu(hWnd, hMenubar);
 }
 
-HWND CreateRichEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance) {
+HWND CreateScintillaEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance) {
 	//Creating scintilla edit control
 	//Alternatives to ES_CENTER are ES_LEFT and ES_RIGHT.
 	HWND hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Scintilla"), NULL,
