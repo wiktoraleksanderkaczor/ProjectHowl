@@ -7,33 +7,23 @@
 #include <iostream>
 #include <Commctrl.h>
 #include </ActualProject/ProjectHowl/include/Scintilla.h>
-#include </ActualProject/ProjectHowl/include/ILexer.h>
-#include </ActualProject/ProjectHowl/include/Sci_Position.h>
 #include </ActualProject/ProjectHowl/include/SciLexer.h>
-#include </ActualProject/ProjectHowl/include/ScintillaWidget.h>
-#include </ActualProject/ProjectHowl/include/Platform.h>
+//#include </ActualProject/ProjectHowl/include/ILexer.h>
+//#include </ActualProject/ProjectHowl/include/Sci_Position.h>
+//#include </ActualProject/ProjectHowl/include/ScintillaWidget.h>
+//#include </ActualProject/ProjectHowl/include/Platform.h>
+
+//Ensuring correct version of the library is used.
+#pragma comment(lib, "comctl32.lib")
 
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-//Global variables
-RECT rect;
-HWND hWnd;
-HWND hWndEdit;
+//Including the global declarations.
+#include <\ActualProject\ProjectHowl\GlobalDeclarations.h>
 
-//Including my header for configuring the editor. This will be included at the end.
+//Including function headers.
+#include <\ActualProject\ProjectHowl\MainFunctionsDefinition.h>
 #include <\ActualProject\ProjectHowl\EditorConfigFunctions.h>
-
-//Declaring functions.
-void getWindowSize();
-void AddMenus(HWND hWnd);
-HWND CreateScintillaEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance);
-
-//Defining params for menubar messages.
-#define IDM_FILE_NEW 1
-#define IDM_FILE_OPEN 2
-#define IDM_FILE_QUIT 3
-#define IDM_FILE_EXPORT 4
-#define IDM_HELP_ABOUT 5
 
 //Handling messages and uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -41,8 +31,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_SIZE:
 		getWindowSize();
-		//The magic numbers 16 and 39 are the adjustments for the window bars. First one is width while the second is height.
-		SetWindowPos(hWndEdit, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
+		//The magic numbers 30, 16 and 39 are the adjustments for the window bars and toolbar. First one is y (height) position,
+		//second is width while the third is height.
+		SetWindowPos(hWndEdit, NULL, 0, 30, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
+		SetWindowPos(hToolbar, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
 		break;
 	case WM_CREATE:
 		AddMenus(hWnd);
@@ -93,7 +85,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 	//Setting title and class of main window.
 	LPTSTR windowClass = TEXT("ProjectHowlApp");
 	LPTSTR windowTitle = TEXT("ProjectHowl");
-	
+
 	//Creating and setting window attributes for register.
 	WNDCLASSEX wcex;
 	wcex.cbClsExtra = 0;
@@ -127,8 +119,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 
 	getWindowSize();
 	
-	//Creating rich text editor window.
+	//Creating rich text editor window and toolbar.
 	hWndEdit = CreateScintillaEdit(hWnd, 0, 0, 0, 0, hInstance);
+	hToolbar = CreateToolbar(hWnd);
+
+	//Configuring editor.
 	setGlobalStyle((LPARAM)"Times New Roman");
 
 	//Setting focus to window.
@@ -144,51 +139,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 		DispatchMessage(&msg);
 	}
 	return EXIT_SUCCESS;
-}
-
-void getWindowSize() {
-	//Get size of the window called hWnd and store in RECT rect.
-	if (GetWindowRect(hWnd, &rect) == false) {
-		std::cout << "Error getting the windows size.\n";
-	}
-}
-
-void AddMenus(HWND hWnd) {
-	//Declaring all menus.
-	HMENU hMenubar;
-	HMENU hFileMenu;
-	HMENU hHelpMenu;
-
-	//Creating main menubar.
-	hMenubar = CreateMenu();
-
-	//Creating sub-menus.
-	hFileMenu = CreateMenu();
-	hHelpMenu = CreateMenu();
-
-	//Creating command buttons in file menu.
-	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_NEW, L"&New");
-	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_OPEN, L"&Open");
-	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_EXPORT, L"&Export...");
-	AppendMenuW(hFileMenu, MF_SEPARATOR, 0, NULL);
-	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_QUIT, L"&Quit");
-
-	//Creating command buttons in help menu.
-	AppendMenuW(hHelpMenu, MF_STRING, IDM_HELP_ABOUT, L"&About");
-
-	//Filling menubar.
-	AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hFileMenu, L"&File");
-	AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hHelpMenu, L"&Help");
-
-	//Setting hWnd to use the menubar.
-	SetMenu(hWnd, hMenubar);
-}
-
-HWND CreateScintillaEdit(HWND hWndOwner, int x, int y, int width, int height, HINSTANCE hInstance) {
-	//Creating scintilla edit control
-	HWND hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Scintilla"), NULL,
-		WS_VISIBLE | WS_CHILD | WS_BORDER | WS_TABSTOP | WS_VSCROLL,
-		x, y, width, height, hWndOwner, NULL, hInstance, NULL);
-
-	return hWndEdit;
 }

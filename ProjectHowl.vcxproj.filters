@@ -23,5 +23,11 @@
     <ClInclude Include="EditorConfigFunctions.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalDeclarations.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFunctionsDefinition.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

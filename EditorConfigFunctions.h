@@ -1,11 +1,3 @@
-//Editor functions.
-void setSelectColor(COLORREF color);
-void setBlinkingCursorColor(COLORREF color);
-void setTabWidth(int numberOfCharacters);
-void setForegorundColor(COLORREF color);
-void setBackgorundColor(COLORREF color);
-void setGlobalStyle(LPARAM font);
-
 //NOTE: COLORREF is RGB().
 
 //Sets the select highlight color. 
