@@ -4,6 +4,9 @@ HWND hWnd;
 HWND hWndEdit;
 HWND hToolbar;
 
+//Default config:
+const char* defaultConfig = "{\"project\":\"rapidjson\",\"stars\":10}";
+
 //Declaring main functions.
 void getWindowSize();
 void AddMenus(HWND hWnd);
