@@ -6,7 +6,6 @@
 #include <windows.h>
 #include <iostream>
 #include <Commctrl.h>
-#include <msxml3.dll>
 #include </ActualProject/ProjectHowl/include/Scintilla.h>
 #include </ActualProject/ProjectHowl/include/SciLexer.h>
 
