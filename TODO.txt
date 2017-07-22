@@ -1,2 +1,3 @@
 1. Add the ability to use headings, italics, bold letters as well as several different fonts. (1/2 Done, it's in the EditorConfigFunctions header file)
 2. Create a toolbar to use above functions. Got the creation process down, just have to modify it to suit my needs.
+3. Add user settings.

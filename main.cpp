@@ -8,10 +8,7 @@
 #include <Commctrl.h>
 #include </ActualProject/ProjectHowl/include/Scintilla.h>
 #include </ActualProject/ProjectHowl/include/SciLexer.h>
-//#include </ActualProject/ProjectHowl/include/ILexer.h>
-//#include </ActualProject/ProjectHowl/include/Sci_Position.h>
-//#include </ActualProject/ProjectHowl/include/ScintillaWidget.h>
-//#include </ActualProject/ProjectHowl/include/Platform.h>
+#include </ActualProject/ProjectHowl/rapidjson.h>
 
 //Ensuring correct version of the library is used.
 #pragma comment(lib, "comctl32.lib")
@@ -24,6 +21,8 @@
 //Including function headers.
 #include <\ActualProject\ProjectHowl\MainFunctionsDefinition.h>
 #include <\ActualProject\ProjectHowl\EditorConfigFunctions.h>
+
+using namespace rapidjson;
 
 //Handling messages and uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)

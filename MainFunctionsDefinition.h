@@ -46,24 +46,32 @@ HWND CreateScintillaEdit(HWND hWndOwner, int x, int y, int width, int height, HI
 }
 
 HWND CreateToolbar(HWND hWndOwner) {
+	//Declaring init for common controls and toolbar stuff.
 	INITCOMMONCONTROLSEX ccsx;
 	TBBUTTON tbb[3];
 	TBADDBITMAP tbab;
 
+	//Registering common control classes.
 	ccsx.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	ccsx.dwICC = ICC_BAR_CLASSES;
 	InitCommonControlsEx(&ccsx);
 
+	//Creating toolbar.
 	HWND hToolbar = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0,
 		hWnd, (HMENU)102, GetModuleHandle(NULL), NULL);
+	//Specifying size of TBBUTTON structure.
 	SendMessage(hToolbar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
 
+	//Handle to executable containing bitmaps. In this case system-defined bitmaps.
 	tbab.hInst = HINST_COMMCTRL;
-	tbab.nID = IDB_STD_SMALL_COLOR;
+	//Setting bitmaps to system-defined (large, with color).
+	tbab.nID = IDB_STD_LARGE_COLOR;
+	//Adding system-defined bitmaps to toolbar.
 	SendMessage(hToolbar, TB_ADDBITMAP, 0, (LPARAM)&tbab);
 
-	//Defining each toolbar button.
+	//Fill memory with zeros.
 	ZeroMemory(tbb, sizeof(tbb));
+	//Defining each toolbar button.
 	tbb[0].iBitmap = STD_FILENEW;
 	tbb[0].fsState = TBSTATE_ENABLED;
 	tbb[0].fsStyle = TBSTYLE_BUTTON;
