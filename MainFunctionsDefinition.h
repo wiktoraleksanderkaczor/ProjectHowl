@@ -10,27 +10,51 @@ void AddMenus(HWND hWnd) {
 	HMENU hMenubar;
 	HMENU hFileMenu;
 	HMENU hHelpMenu;
+	HMENU hEditMenu;
+	HMENU hSettingsMenu;
 
 	//Creating main menubar.
 	hMenubar = CreateMenu();
 
 	//Creating sub-menus.
 	hFileMenu = CreateMenu();
-	hHelpMenu = CreateMenu();
+	hEditMenu = CreateMenu();
+	hSettingsMenu = CreateMenu();
 
 	//Creating command buttons in file menu.
 	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_NEW, L"&New");
 	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_OPEN, L"&Open");
+	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_SAVE, L"&Save");
+	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_SAVEAS, L"&Save As..");
+	AppendMenuW(hFileMenu, MF_SEPARATOR, 0, NULL);
 	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_EXPORT, L"&Export...");
 	AppendMenuW(hFileMenu, MF_SEPARATOR, 0, NULL);
 	AppendMenuW(hFileMenu, MF_STRING, IDM_FILE_QUIT, L"&Quit");
 
-	//Creating command buttons in help menu.
-	AppendMenuW(hHelpMenu, MF_STRING, IDM_HELP_ABOUT, L"&About");
+	//Creating command buttons in edit menu.
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_UNDO, L"&Undo");
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_REDO, L"&Redo");
+	AppendMenuW(hEditMenu, MF_SEPARATOR, 0, NULL);	
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_CUT, L"&Cut");
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_COPY, L"&Copy");
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_PASTE, L"&Paste");
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_DELETE, L"&Delete");
+	AppendMenuW(hEditMenu, MF_SEPARATOR, 0, NULL);
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_FIND, L"&Find");
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_REPLACE, L"&Replace");
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_SELECTALL, L"&Select All");
+	AppendMenuW(hEditMenu, MF_SEPARATOR, 0, NULL);
+	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_INSERTTIMEDATE, L"&Insert Time and Date");
+
+	//Creating command buttons in settings menu.
+	AppendMenuW(hSettingsMenu, MF_STRING, IDM_SETTINGS_PREFERENCES, L"&Preferences");
+	AppendMenuW(hSettingsMenu, MF_STRING, IDM_SETTINGS_UPDATE, L"&Update");
+	AppendMenuW(hSettingsMenu, MF_STRING, IDM_SETTINGS_ABOUT, L"&About");
 
 	//Filling menubar.
 	AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hFileMenu, L"&File");
-	AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hHelpMenu, L"&Help");
+	AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hEditMenu, L"&Edit");
+	AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hSettingsMenu, L"&Settings");
 
 	//Setting hWnd to use the menubar.
 	SetMenu(hWnd, hMenubar);
@@ -85,7 +109,7 @@ HWND CreateToolbar(HWND hWndOwner) {
 	tbb[2].iBitmap = STD_FILESAVE;
 	tbb[2].fsState = TBSTATE_ENABLED;
 	tbb[2].fsStyle = TBSTYLE_BUTTON;
-	tbb[2].idCommand = IDM_HELP_ABOUT;
+	tbb[2].idCommand = IDM_SETTINGS_ABOUT;
 
 	//Updating toolbar with above specifications.
 	SendMessage(hToolbar, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)&tbb);

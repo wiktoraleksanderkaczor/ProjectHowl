@@ -48,7 +48,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDM_FILE_QUIT:
 			SendMessage(hWnd, WM_CLOSE, 0, 0);
 			break;
-		case IDM_HELP_ABOUT:
+		case IDM_SETTINGS_ABOUT:
 			MessageBox(hWnd, TEXT("This program was made by Wiktor Kaczor."), TEXT("About"), MB_OK);
 			break;
 		}
