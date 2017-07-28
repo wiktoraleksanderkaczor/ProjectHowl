@@ -144,9 +144,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EditorConfigFunctions.h" />
-    <ClInclude Include="GlobalDeclarations.h" />
-    <ClInclude Include="MainFunctionsDefinition.h" />
+    <ClInclude Include="editorFunction.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

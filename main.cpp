@@ -6,20 +6,19 @@
 #include <windows.h>
 #include <iostream>
 #include <Commctrl.h>
-#include </ActualProject/ProjectHowl/include/Scintilla.h>
-#include </ActualProject/ProjectHowl/include/SciLexer.h>
+#include "Dependencies\Scintilla.h"
+#include "Dependencies\SciLexer.h"
 
 //Ensuring correct version of the library is used.
 #pragma comment(lib, "comctl32.lib")
 
+//Visual Studio generated stuff.
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-//Including the global declarations.
-#include <\ActualProject\ProjectHowl\GlobalDeclarations.h>
-
-//Including function headers.
-#include <\ActualProject\ProjectHowl\MainFunctionsDefinition.h>
-#include <\ActualProject\ProjectHowl\EditorConfigFunctions.h>
+//Including headers.
+#include "global.h"
+#include "main.h"
+#include "editorFunction.h"
 
 //Handling messages and uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -39,12 +38,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		//Handling menu commands.
 		//TODO: Implement File IO.
 		switch (LOWORD(wParam)) {
-		case IDM_FILE_NEW:
-			break;
-		case IDM_FILE_OPEN:
-			break;
-		case IDM_FILE_EXPORT:
-			break;
 		case IDM_FILE_QUIT:
 			SendMessage(hWnd, WM_CLOSE, 0, 0);
 			break;

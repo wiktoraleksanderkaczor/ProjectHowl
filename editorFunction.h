@@ -1,3 +1,4 @@
+#pragma once
 //NOTE: COLORREF is RGB().
 
 //Sets the select highlight color. 

@@ -1,3 +1,4 @@
+#pragma once
 void getWindowSize() {
 	//Get size of the window called hWnd and store in RECT rect.
 	if (GetWindowRect(hWnd, &rect) == false) {
@@ -34,7 +35,7 @@ void AddMenus(HWND hWnd) {
 	//Creating command buttons in edit menu.
 	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_UNDO, L"&Undo");
 	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_REDO, L"&Redo");
-	AppendMenuW(hEditMenu, MF_SEPARATOR, 0, NULL);	
+	AppendMenuW(hEditMenu, MF_SEPARATOR, 0, NULL);
 	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_CUT, L"&Cut");
 	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_COPY, L"&Copy");
 	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_PASTE, L"&Paste");

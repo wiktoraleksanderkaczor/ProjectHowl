@@ -20,13 +20,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EditorConfigFunctions.h">
+    <ClInclude Include="main.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalDeclarations.h">
+    <ClInclude Include="editorFunction.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="MainFunctionsDefinition.h">
+    <ClInclude Include="global.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
