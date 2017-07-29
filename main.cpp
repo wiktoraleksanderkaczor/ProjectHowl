@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <iostream>
 #include <Commctrl.h>
+#include <conio.h>
 #include "Dependencies\Scintilla.h"
 #include "Dependencies\SciLexer.h"
 
@@ -38,8 +39,41 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		//Handling menu commands.
 		//TODO: Implement File IO.
 		switch (LOWORD(wParam)) {
+		case IDM_FILE_NEW:
+			MessageBeep(MB_ICONWARNING);
+			break;
+		case IDM_FILE_OPEN:
+			break;
+		case IDM_FILE_SAVE:
+			break;
 		case IDM_FILE_QUIT:
 			SendMessage(hWnd, WM_CLOSE, 0, 0);
+			break;
+
+		case IDM_EDIT_UNDO:
+			break;
+		case IDM_EDIT_REDO:
+			break;
+		case IDM_EDIT_CUT:
+			break;
+		case IDM_EDIT_COPY:
+			break;
+		case IDM_EDIT_PASTE:
+			break;
+		case IDM_EDIT_DELETE:
+			break;
+		case IDM_EDIT_FIND:
+			break;
+		case IDM_EDIT_REPLACE:
+			break;
+		case IDM_EDIT_SELECTALL:
+			break;
+		case IDM_EDIT_INSERTTIMEDATE:
+			break;
+
+		case IDM_SETTINGS_PREFERENCES:
+			break;
+		case IDM_SETTINGS_UPDATE:
 			break;
 		case IDM_SETTINGS_ABOUT:
 			MessageBox(hWnd, TEXT("This program was made by Wiktor Kaczor."), TEXT("About"), MB_OK);
@@ -124,6 +158,58 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 
 	//Loop to handle events.
 	while (GetMessage(&msg, NULL, 0, 0)) {
+		//If control is pressed down:
+		if (GetKeyState(VK_CONTROL) & 0x8000) {
+			//New file:
+			if (GetKeyState('N') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_FILE_NEW, 0);
+			}
+			//Open file:
+			if (GetKeyState('O') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_FILE_OPEN, 0);
+			}
+			//Save file:
+			if (GetKeyState('S') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_FILE_SAVE, 0);
+			}
+			//Quit program:
+			if (GetKeyState('Q') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_FILE_QUIT, 0);
+			}
+			//Undo:
+			if (GetKeyState('Z') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_EDIT_UNDO, 0);
+			}
+			//Redo:
+			if (GetKeyState('Y') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_EDIT_REDO, 0);
+			}
+			//Cut:
+			if (GetKeyState('X') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_EDIT_CUT, 0);
+			}
+			//Copy:
+			if (GetKeyState('C') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_EDIT_COPY, 0);
+			}
+			//Paste:
+			if (GetKeyState('V') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_EDIT_PASTE, 0);
+			}
+			//Delete:
+			if (GetKeyState(VK_DELETE) & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_EDIT_DELETE, 0);
+			}
+			//Find:
+			if (GetKeyState('F') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_EDIT_FIND, 0);
+			}
+			//Replace:
+			if (GetKeyState('H') & 0x8000) {
+				SendMessage(hWnd, WM_COMMAND, IDM_EDIT_REPLACE, 0);
+			}
+		} 
+		
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
