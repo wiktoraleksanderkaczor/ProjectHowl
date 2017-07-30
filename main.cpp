@@ -20,6 +20,7 @@
 #include "global.h"
 #include "main.h"
 #include "editorFunction.h"
+#include "fileIO.h"
 
 //Handling messages and uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -27,48 +28,73 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_SIZE:
 		getWindowSize();
-		//The magic numbers 30, 16 and 39 are the adjustments for the window bars and toolbar. First one is y (height) position,
+		//The magic numbers 32, 16 and 39 are the adjustments for the window bars and toolbar. First one is y (height) position,
 		//second is width while the third is height.
-		SetWindowPos(hWndEdit, NULL, 0, 30, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
+		SetWindowPos(hWndEdit, NULL, 0, 32, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
 		SetWindowPos(hToolbar, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
 		break;
 	case WM_CREATE:
 		AddMenus(hWnd);
+		newFile();
 		break;
 	case WM_COMMAND:
-		//Handling menu commands.
+		//Handling commands.
 		//TODO: Implement File IO.
 		switch (LOWORD(wParam)) {
 		case IDM_FILE_NEW:
-			MessageBeep(MB_ICONWARNING);
+			newFile();
 			break;
 		case IDM_FILE_OPEN:
+			openFile(pathToFile);
 			break;
 		case IDM_FILE_SAVE:
+			saveFile();
 			break;
 		case IDM_FILE_QUIT:
-			SendMessage(hWnd, WM_CLOSE, 0, 0);
+			//Checks if unmodified changes are pending and gives the option to go back.
+			if (isDocModified) {
+				int result = MessageBox(hWnd, TEXT("Your modifications to the file have not been saved, are you sure you wish to exit?"), TEXT("ProjectHowl"), MB_YESNOCANCEL);
+				switch (result)
+				{
+				case IDYES:
+					SendMessage(hWnd, WM_CLOSE, 0, 0);
+					break;
+				case IDNO:
+					saveFileAs();
+					break;
+				case IDCANCEL:
+					break;
+				}
+			}
+			else {
+				SendMessage(hWnd, WM_CLOSE, 0, 0);
+			}
 			break;
 
 		case IDM_EDIT_UNDO:
+			SendMessage(hWndEdit, SCI_UNDO, 0, 0);
 			break;
 		case IDM_EDIT_REDO:
+			SendMessage(hWndEdit, SCI_REDO, 0, 0);
 			break;
 		case IDM_EDIT_CUT:
+			SendMessage(hWndEdit, WM_CUT, 0, 0);
 			break;
 		case IDM_EDIT_COPY:
+			SendMessage(hWndEdit, WM_COPY, 0, 0);
 			break;
 		case IDM_EDIT_PASTE:
+			SendMessage(hWndEdit, WM_PASTE, 0, 0);
 			break;
 		case IDM_EDIT_DELETE:
+			SendMessage(hWndEdit, WM_CLEAR, 0, 0);
 			break;
 		case IDM_EDIT_FIND:
 			break;
 		case IDM_EDIT_REPLACE:
 			break;
 		case IDM_EDIT_SELECTALL:
-			break;
-		case IDM_EDIT_INSERTTIMEDATE:
+			SendMessage(hWndEdit, SCI_SELECTALL, 0, 0);
 			break;
 
 		case IDM_SETTINGS_PREFERENCES:

@@ -29,5 +29,8 @@
     <ClInclude Include="global.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="fileIO.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

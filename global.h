@@ -3,6 +3,10 @@ RECT rect;
 HWND hWnd;
 HWND hWndEdit;
 HWND hToolbar;
+bool fileExists;
+bool isDocModified;
+char pathToFile[MAX_PATH];
+char windowTitle[MAX_PATH + 50];
 
 //Declaring main functions.
 void getWindowSize();
@@ -17,6 +21,12 @@ void setTabWidth(int numberOfCharacters);
 void setForegorundColor(COLORREF color);
 void setBackgorundColor(COLORREF color);
 void setGlobalStyle(LPARAM font);
+
+//Declaring file IO functions.
+void openFile(char *fileName);
+void newFile();
+void saveFile();
+void saveFileAs();
 
 //Defining params for menubar messages.
 #define IDM_FILE_NEW 1
@@ -35,8 +45,7 @@ void setGlobalStyle(LPARAM font);
 #define IDM_EDIT_FIND 13
 #define IDM_EDIT_REPLACE 14
 #define IDM_EDIT_SELECTALL 15
-#define IDM_EDIT_INSERTTIMEDATE 16
 
-#define IDM_SETTINGS_PREFERENCES 17
-#define IDM_SETTINGS_UPDATE 18
-#define IDM_SETTINGS_ABOUT 19
+#define IDM_SETTINGS_PREFERENCES 16
+#define IDM_SETTINGS_UPDATE 17
+#define IDM_SETTINGS_ABOUT 18

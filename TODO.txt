@@ -1,3 +1,4 @@
-1. Add the ability to use headings, italics, bold letters as well as several different fonts. (1/2 Done, it's in the EditorConfigFunctions header file)
-2. Create a toolbar to use above functions. Got the creation process down, just have to modify it to suit my needs.
-3. Add user settings.
+1. Add the ability to use headings, italics, bold letters as well as several different fonts. (1/2 Done, it's in the editorFunction header file)
+2. Create a toolbar to use above functions. Got the creation process down, just have to modify it to suit my needs. (Again 1/2 done)
+3. Add user settings. (Not started)
+4. File IO (Just started, got the basics down and just have to get it to save and read files)

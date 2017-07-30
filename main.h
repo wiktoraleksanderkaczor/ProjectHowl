@@ -10,7 +10,6 @@ void AddMenus(HWND hWnd) {
 	//Declaring all menus.
 	HMENU hMenubar;
 	HMENU hFileMenu;
-	HMENU hHelpMenu;
 	HMENU hEditMenu;
 	HMENU hSettingsMenu;
 
@@ -44,8 +43,6 @@ void AddMenus(HWND hWnd) {
 	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_FIND, L"&Find");
 	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_REPLACE, L"&Replace");
 	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_SELECTALL, L"&Select All");
-	AppendMenuW(hEditMenu, MF_SEPARATOR, 0, NULL);
-	AppendMenuW(hEditMenu, MF_STRING, IDM_EDIT_INSERTTIMEDATE, L"&Insert Time and Date");
 
 	//Creating command buttons in settings menu.
 	AppendMenuW(hSettingsMenu, MF_STRING, IDM_SETTINGS_PREFERENCES, L"&Preferences");
