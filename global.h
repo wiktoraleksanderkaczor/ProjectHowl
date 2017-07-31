@@ -6,7 +6,8 @@ HWND hToolbar;
 bool fileExists;
 bool isDocModified;
 char pathToFile[MAX_PATH];
-char windowTitle[MAX_PATH + 50];
+const int sizeOfBlock = 128 * 1024;
+char convertedPath[MAX_PATH];
 
 //Declaring main functions.
 void getWindowSize();
@@ -27,6 +28,7 @@ void openFile(char *fileName);
 void newFile();
 void saveFile();
 void saveFileAs();
+void open();
 
 //Defining params for menubar messages.
 #define IDM_FILE_NEW 1

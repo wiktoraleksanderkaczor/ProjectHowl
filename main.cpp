@@ -7,6 +7,9 @@
 #include <iostream>
 #include <Commctrl.h>
 #include <conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ShObjIdl.h>
 #include "Dependencies\Scintilla.h"
 #include "Dependencies\SciLexer.h"
 
@@ -30,8 +33,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		getWindowSize();
 		//The magic numbers 32, 16 and 39 are the adjustments for the window bars and toolbar. First one is y (height) position,
 		//second is width while the third is height.
-		SetWindowPos(hWndEdit, NULL, 0, 32, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
-		SetWindowPos(hToolbar, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 39), NULL);
+		SetWindowPos(hWndEdit, NULL, 0, 32, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 90), NULL);
+		SetWindowPos(hToolbar, NULL, 0, 0, ((rect.right - rect.left) - 16), ((rect.bottom - rect.top) - 90), NULL);
 		break;
 	case WM_CREATE:
 		AddMenus(hWnd);
@@ -45,7 +48,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			newFile();
 			break;
 		case IDM_FILE_OPEN:
-			openFile(pathToFile);
+			open();
 			break;
 		case IDM_FILE_SAVE:
 			saveFile();
@@ -171,6 +174,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 	//Creating rich text editor window and toolbar.
 	hWndEdit = CreateScintillaEdit(hWnd, 0, 0, 0, 0, hInstance);
 	hToolbar = CreateToolbar(hWnd);
+	SendMessage(hWndEdit, SCI_SETSCROLLWIDTHTRACKING, TRUE, 0);
+	//SC_WRAP_NONE (0), SC_WRAP_WORD (1) or SC_WRAP_CHAR (2)
+	SendMessage(hWndEdit, SCI_SETWRAPMODE, 1, 0);
 
 	//Configuring editor.
 	setGlobalStyle((LPARAM)"Times New Roman");
