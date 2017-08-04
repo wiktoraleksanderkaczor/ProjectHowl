@@ -107,7 +107,7 @@ HWND CreateToolbar(HWND hWndOwner) {
 	tbb[2].iBitmap = STD_FILESAVE;
 	tbb[2].fsState = TBSTATE_ENABLED;
 	tbb[2].fsStyle = TBSTYLE_BUTTON;
-	tbb[2].idCommand = IDM_SETTINGS_ABOUT;
+	tbb[2].idCommand = IDM_FILE_SAVE;
 
 	//Updating toolbar with above specifications.
 	SendMessage(hToolbar, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)&tbb);

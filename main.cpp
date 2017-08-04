@@ -5,10 +5,6 @@
 //Including neccessary headers.
 #include <windows.h>
 #include <iostream>
-#include <Commctrl.h>
-#include <conio.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <ShObjIdl.h>
 #include "Dependencies\Scintilla.h"
 #include "Dependencies\SciLexer.h"
@@ -53,6 +49,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDM_FILE_SAVE:
 			saveFile();
 			break;
+		case IDM_FILE_SAVEAS:
+			saveFileAs();
 		case IDM_FILE_QUIT:
 			//Checks if unmodified changes are pending and gives the option to go back.
 			if (isDocModified) {

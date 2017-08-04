@@ -9,6 +9,7 @@ void newFile() {
 	isDocModified = false;
 	//Makes the path to file terminate on the first character.
 	pathToFile[0] = '\n';
+	fileExists = false;
 }
 
 //Opens a file in the editor.
@@ -18,7 +19,7 @@ void openFile(char *fileName) {
 	SendMessage(hWndEdit, SCI_CANCEL, 0, 0);
 	SendMessage(hWndEdit, SCI_SETUNDOCOLLECTION, 0, 0);
 
-	strcpy(pathToFile, fileName);
+	strcpy_s(pathToFile, fileName);
 	FILE *fp = fopen(pathToFile, "rb");
 	if (fp) {
 		char data[sizeOfBlock];
@@ -29,6 +30,7 @@ void openFile(char *fileName) {
 			lenFile = fread(data, 1, sizeof(data), fp);
 		}
 		fclose(fp);
+		fileExists = true;
 	}
 	else {
 		MessageBox(hWnd, TEXT("ProjectHowl couldn't open the specified file"), TEXT("ProjectHowl"), MB_OK);
@@ -43,10 +45,24 @@ void openFile(char *fileName) {
 //Saves the file if it already exists, else it calls saveFileAs();.
 void saveFile() {
 	if (fileExists == true) {
-
+		isDocModified = false;
+		FILE *fp = fopen(pathToFile, "wb");
+		if (fp) {
+			//This will save "asd" correctly.
+			int length = SendMessage(hWndEdit, SCI_GETLENGTH, 0, 0);
+			char text[4];
+			SendMessage(hWndEdit, SCI_GETTEXT, 4, (LPARAM)&text);
+			fwrite(text, sizeof(char), sizeof(text), fp);
+		}
+		else {
+			//Error message
+		}
+		fclose(fp);
+		SendMessage(hWndEdit, SCI_SETSAVEPOINT, 0, 0);
 	}
 	else {
 		saveFileAs();
+		isDocModified = false;
 	}
 }
 
@@ -96,4 +112,8 @@ void open() {
 		}
 		CoUninitialize();
 	}
+}
+
+void setWindowTitle(char* title) {
+
 }
