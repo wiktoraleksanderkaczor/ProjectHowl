@@ -7,7 +7,7 @@ bool fileExists;
 bool isDocModified;
 char pathToFile[MAX_PATH];
 const int sizeOfBlock = 128 * 1024;
-char convertedPath[MAX_PATH];
+char programName[20] = { "ProjectHowl" };
 
 //Declaring main functions.
 void getWindowSize();
@@ -29,6 +29,7 @@ void newFile();
 void saveFile();
 void saveFileAs();
 void open();
+void setWindowTitle(bool isNew);
 
 //Defining params for menubar messages.
 #define IDM_FILE_NEW 1

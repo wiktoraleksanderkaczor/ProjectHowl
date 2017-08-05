@@ -10,6 +10,7 @@ void newFile() {
 	//Makes the path to file terminate on the first character.
 	pathToFile[0] = '\n';
 	fileExists = false;
+	setWindowTitle(true);
 }
 
 //Opens a file in the editor.
@@ -40,6 +41,7 @@ void openFile(char *fileName) {
 	SendMessage(hWndEdit, EM_EMPTYUNDOBUFFER, 0, 0);
 	SendMessage(hWndEdit, SCI_SETSAVEPOINT, 0, 0);
 	SendMessage(hWndEdit, SCI_GOTOPOS, 0, 0);
+	setWindowTitle(false);
 }
 
 //Saves the file if it already exists, else it calls saveFileAs();.
@@ -59,16 +61,19 @@ void saveFile() {
 		}
 		fclose(fp);
 		SendMessage(hWndEdit, SCI_SETSAVEPOINT, 0, 0);
+		isDocModified = false;
 	}
 	else {
 		saveFileAs();
 		isDocModified = false;
+		fileExists = true;
+		SendMessage(hWndEdit, SCI_SETSAVEPOINT, 0, 0);
 	}
 }
 
 //Saves the file to a user determined location.
 void saveFileAs() {
-
+	setWindowTitle(false);
 }
 
 //Function to get the file name and call the openFile() method.
@@ -101,6 +106,7 @@ void open() {
 					// Display the file name to the user.
 					if (SUCCEEDED(hr))
 					{
+						char convertedPath[MAX_PATH];
 						WideCharToMultiByte(CP_ACP, 0, pszFilePath, -1, convertedPath, sizeof(convertedPath), NULL, NULL);
 						openFile(convertedPath);
 						CoTaskMemFree(pszFilePath);
@@ -114,6 +120,19 @@ void open() {
 	}
 }
 
-void setWindowTitle(char* title) {
+void setWindowTitle(bool isNew) {
+	char title[MAX_PATH + 100];
+	if (isNew) {
+		strcpy(title, programName);
+	}
+	else {
+		strcpy(title, programName);
+		strcat(title, " - ");
+		strcat(title, pathToFile);
+	}
+	wchar_t *wmsg = new wchar_t[strlen(title) + 1];
+	mbstowcs(wmsg, title, strlen(title) + 1);
+	SetWindowText(hWnd, wmsg);
+
 
 }

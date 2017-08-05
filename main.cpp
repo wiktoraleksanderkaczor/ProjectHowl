@@ -5,6 +5,7 @@
 //Including neccessary headers.
 #include <windows.h>
 #include <iostream>
+#include <string>
 #include <ShObjIdl.h>
 #include "Dependencies\Scintilla.h"
 #include "Dependencies\SciLexer.h"
