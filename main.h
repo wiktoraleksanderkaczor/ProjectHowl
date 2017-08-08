@@ -114,4 +114,3 @@ HWND CreateToolbar(HWND hWndOwner) {
 
 	return hToolbar;
 }
-

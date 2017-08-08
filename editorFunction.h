@@ -1,7 +1,7 @@
 #pragma once
 //NOTE: COLORREF is RGB().
 
-//Sets the select highlight color. 
+//Sets the select highlight color.
 void setSelectColor(COLORREF color) {
 	SendMessage(hWndEdit, SCI_SETSELBACK, TRUE, color);
 }
@@ -30,4 +30,3 @@ void setBackgorundColor(COLORREF color) {
 void setGlobalStyle(LPARAM font) {
 	SendMessage(hWndEdit, SCI_STYLESETFONT, STYLE_DEFAULT, font);
 }
-

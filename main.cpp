@@ -52,6 +52,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDM_FILE_SAVEAS:
 			saveFileAs();
+			break;
 		case IDM_FILE_QUIT:
 			//Checks if unmodified changes are pending and gives the option to go back.
 			if (isDocModified) {
@@ -123,7 +124,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 //The main entry point for the program.
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine, int nCmdShow) 
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine, int nCmdShow)
 {
 	//Suppressing warnings.
 	UNREFERENCED_PARAMETER(hPrevInstance);
@@ -169,7 +170,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 	}
 
 	getWindowSize();
-	
+
 	//Creating rich text editor window and toolbar.
 	hWndEdit = CreateScintillaEdit(hWnd, 0, 0, 0, 0, hInstance);
 	hToolbar = CreateToolbar(hWnd);
@@ -239,8 +240,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 			if (GetKeyState('H') & 0x8000) {
 				SendMessage(hWnd, WM_COMMAND, IDM_EDIT_REPLACE, 0);
 			}
-		} 
-		
+		}
+
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}

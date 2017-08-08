@@ -30,6 +30,7 @@ void saveFile();
 void saveFileAs();
 void open();
 void setWindowTitle(bool isNew);
+void writeToFile();
 
 //Defining params for menubar messages.
 #define IDM_FILE_NEW 1
