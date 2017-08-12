@@ -137,18 +137,24 @@ void saveFileAs() {
 
 //Write the text to file.
 void writeToFile() {
-	FILE *fp = fopen(pathToFile, "wb");
+	/*
+	write/update: Create an empty file and open it for update (both for input and output).
+	If a file with the same name already exists its contents are discarded and the file is treated as a new empty file.
+	*/
+	FILE *fp = fopen(pathToFile, "w+");
+	char tmp[1];
 		if (fp) {
-			//This will save "asd" correctly.
 			int length = SendMessage(hWndEdit, SCI_GETLENGTH, 0, 0);
-			char text[500];
-			SendMessage(hWndEdit, SCI_GETTEXT, 500, (LPARAM)&text);
-			fwrite(text, sizeof(char), sizeof(text), fp);
+			char* text = new char[length];
+			SendMessage(hWndEdit, SCI_GETTEXT, (length + 1), (LPARAM)text);
+			fwrite(text, sizeof(char), strlen(text), fp);//size + 2, fp);	
+			delete[] text;
+			fclose(fp);
 		}
 		else {
 			//Error message
 		}
-		fclose(fp);
+		
 		SendMessage(hWndEdit, SCI_SETSAVEPOINT, 0, 0);
 		isDocModified = false;
 }
