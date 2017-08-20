@@ -142,19 +142,17 @@ void writeToFile() {
 	If a file with the same name already exists its contents are discarded and the file is treated as a new empty file.
 	*/
 	FILE *fp = fopen(pathToFile, "w+");
-	char tmp[1];
 		if (fp) {
 			int length = SendMessage(hWndEdit, SCI_GETLENGTH, 0, 0);
 			char* text = new char[length];
 			SendMessage(hWndEdit, SCI_GETTEXT, (length + 1), (LPARAM)text);
-			fwrite(text, sizeof(char), strlen(text), fp);//size + 2, fp);	
+			fwrite(text, sizeof(char), strlen(text), fp);
 			delete[] text;
 			fclose(fp);
 		}
 		else {
 			//Error message
 		}
-		
 		SendMessage(hWndEdit, SCI_SETSAVEPOINT, 0, 0);
 		isDocModified = false;
 }

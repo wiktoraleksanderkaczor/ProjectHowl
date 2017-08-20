@@ -9,6 +9,7 @@
 #include <ShObjIdl.h>
 #include "Dependencies\Scintilla.h"
 #include "Dependencies\SciLexer.h"
+#include </ActualProject/ProjectHowl/jagpdf/api.h>
 
 //Ensuring correct version of the library is used.
 #pragma comment(lib, "comctl32.lib")
@@ -21,6 +22,8 @@
 #include "main.h"
 #include "editorFunction.h"
 #include "fileIO.h"
+
+using namespace jag;
 
 //Handling messages and uncaught exceptions.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -133,6 +136,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 	//Loading dependencies.
 	LoadLibrary(TEXT("SciLexer.dll"));
 	LoadLibrary(TEXT("Scintilla.dll"));
+	LoadLibrary(TEXT("jagpdf-1.4.dll"));
 
 	//Setting title and class of main window.
 	LPTSTR windowClass = TEXT("ProjectHowlApp");
@@ -187,6 +191,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR nCmdLine,
 
 	//Structure to hold message.
 	MSG msg;
+	pdf::Document doc(pdf::create_file("hello.pdf"));
+	doc.page_start(597.6, 848.68);
+	doc.page().canvas().text(50, 800, "Hello, world!");
+	doc.page_end();
+	doc.finalize();
 
 	//Loop to handle events.
 	while (GetMessage(&msg, NULL, 0, 0)) {
